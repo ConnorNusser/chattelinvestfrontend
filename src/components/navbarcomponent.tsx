@@ -3,7 +3,7 @@ import {Button, Nav} from 'react-bootstrap';
 import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useSession, signIn, signOut } from "next-auth/react"
 import { useState } from 'react';
 const NavbarComponent = () => {
    const [isLoggedIn, setLogin] =  useState(false);
@@ -34,19 +34,15 @@ const NavbarComponent = () => {
 }
 
 const LoginComponent = (props:any) => {
-  const isLoggedIn = props.isLoggedIn;
-  const userName = props.userName;
-  if (isLoggedIn) {
+  const { data: session } = useSession()
+  console.log(session);
+  if (session) {
     return (
-      <Link href="/userName" passHref>
-      <Button>Logged In as {userName}</Button>
-      </Link>
+      <Button onClick={() => signOut()}>Welcome {session.user?.name} Sign out</Button>
     );
   }
   return (
-    <Link href="/SignIn" passHref>
-    <Button>Sign In</Button>
-    </Link>
+    <Button onClick={() => signIn()}>Sign in</Button>
   );
 }
 export default NavbarComponent;
