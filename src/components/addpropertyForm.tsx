@@ -36,7 +36,7 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
         <Modal.Body>
           <Form>
             <Form.Group className="mb-3" controlId="LocationControl">
-              <Form.Label>Username</Form.Label>
+              <Form.Label>Address</Form.Label>
               <Form.Control
                 type="string"
                 placeholder="Ex: 123 Main Street"
@@ -48,7 +48,7 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
               className="mb-3"
               controlId="password control"
             >
-              <Form.Label>Password</Form.Label>
+              <Form.Label>ZipCode</Form.Label>
               <Form.Control
               placeholder="Ex: 78704"
               type="string"
