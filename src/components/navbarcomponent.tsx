@@ -4,10 +4,7 @@ import WorkspacesIcon from '@mui/icons-material/Workspaces';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { useSession, signIn, signOut } from "next-auth/react"
-import { useState } from 'react';
 const NavbarComponent = () => {
-   const [isLoggedIn, setLogin] =  useState(false);
-   const [userName, setUserName] = useState('');
   return (
     <Navbar bg="primary" variant="dark">
     <Container>
@@ -26,16 +23,15 @@ const NavbarComponent = () => {
         </Link>
       </Nav>
       <Nav className="justify-content-end" style={{ width: "100%" }}>
-            <LoginComponent isLoggedIn = {isLoggedIn} userName = {userName}/>
+            <LoginComponent/>
         </Nav>
     </Container>
   </Navbar>
   );
 }
 
-const LoginComponent = (props:any) => {
+const LoginComponent = () => {
   const { data: session } = useSession()
-  console.log(session);
   if (session) {
     return (
       <Button onClick={() => signOut()}>Welcome {session.user?.name} Sign out</Button>

@@ -2,14 +2,16 @@ import { Button } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { getProperty, createProperty } from '@/pages/api/properties';
+import { getProperty } from '@/pages/api/properties';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-interface propertyData {
+import AddPropertyForm from './addpropertyForm';
+export interface propertyData {
     image: string
     owner: string
     address: string
     zipcode: string
+    type: string
 
 }
 const AddProperty = () => {
@@ -23,7 +25,8 @@ const AddProperty = () => {
                         image: result.image,
                         owner: result.owner,
                         address: result.address,
-                        zipcode: result.zipcode
+                        zipcode: result.zipcode,
+                        type: result.type
                     }
                     localProperties.push(localPropertyObj);
                 }
@@ -50,7 +53,7 @@ const AddProperty = () => {
     <AddNewPropertyCard/>
     <hr/>
     <Row xs={1} md={2} className="g-4">
-        {properties.map((object, i) => <Propertycard image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} />)}
+        {properties.map((object, i) => <Propertycard image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
     </Row>
     </>
   );
@@ -72,21 +75,27 @@ const Propertycard = (propInfo: propertyData) => {
     )
 
 }
+
 const AddNewPropertyCard = () => {
+    function propertyStateChange(type: string){
+        setPropertyType(type);
+        setShow(true);
+    }
     const { data: session} = useSession();
+    const [show, setShow] = useState(false);
+    const [propertyType, setPropertyType] = useState('');
     return (
         <div style={{justifyContent:'center', display: 'flex', textAlign:'center'}}>
+        <>
+        {show? <AddPropertyForm userName={session?.user?.name} type = {propertyType}/> : null}
+        </>
         <Card style={{ width: '36rem', paddingInline:'20px'}}>
         <Card.Body>
           <Card.Title>Portfolio Management</Card.Title>
-            <Button size='sm' onClick={() => createProperty({
-                userName: session?.user?.name,
-                type: 'commerical'
-            })}>Add Property: Commerical</Button>
-            <Button size='sm' onClick={() => createProperty({
-                userName: session?.user?.name,
-                type: 'residental'
-            })}>Add Property: Residental</Button>
+            <Button size='sm' onClick={() => propertyStateChange('commerical')
+            }>Add Property: Commerical</Button>
+            <Button size='sm' onClick={() => propertyStateChange('residental')
+            }>Add Property: Residental</Button>
         </Card.Body>
       </Card>
       </div>
