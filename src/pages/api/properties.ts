@@ -2,7 +2,7 @@ import { propertyData } from "@/components/addproperty";
 
 export const getProperty = async({name}: {name:string}) => {
     const requestOptions = {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:8000/property/get',
                 'Access-Control-Allow-Credentials': 'true' },
