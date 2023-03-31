@@ -7,11 +7,12 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import AddPropertyForm from './addpropertyForm';
 export interface propertyData {
+    key?: string
     image: string
     owner: string
     address: string
-    zipcode: string
-    type: string
+    zipcode: number
+    type: number
 
 }
 const AddProperty = () => {
@@ -26,7 +27,7 @@ const AddProperty = () => {
                         owner: result.owner,
                         address: result.address,
                         zipcode: result.zipcode,
-                        type: result.type
+                        type: result.type,
                     }
                     localProperties.push(localPropertyObj);
                 }
@@ -53,7 +54,7 @@ const AddProperty = () => {
     <AddNewPropertyCard/>
     <hr/>
     <Row xs={1} md={2} className="g-4">
-        {properties.map((object, i) => <Propertycard image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
+        {properties.map((object, i) => <Propertycard key={object.address} image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
     </Row>
     </>
   );
@@ -75,15 +76,19 @@ const Propertycard = (propInfo: propertyData) => {
     )
 
 }
+enum propertyTypeEnum{
+  Commerical = 0,
+  Residental = 1
 
+}
 const AddNewPropertyCard = () => {
-    function propertyStateChange(type: string){
+    function propertyStateChange(type: number){
         setPropertyType(type);
         setShow(true);
     }
     const { data: session} = useSession();
     const [show, setShow] = useState(false);
-    const [propertyType, setPropertyType] = useState('');
+    const [propertyType, setPropertyType] = useState(propertyTypeEnum.Commerical);
     return (
         <div style={{justifyContent:'center', display: 'flex', textAlign:'center'}}>
         <>
@@ -92,9 +97,9 @@ const AddNewPropertyCard = () => {
         <Card style={{ width: '36rem', paddingInline:'20px'}}>
         <Card.Body>
           <Card.Title>Portfolio Management</Card.Title>
-            <Button size='sm' onClick={() => propertyStateChange('commerical')
+            <Button size='sm' onClick={() => propertyStateChange(propertyTypeEnum.Commerical)
             }>Add Property: Commerical</Button>
-            <Button size='sm' onClick={() => propertyStateChange('residental')
+            <Button size='sm' onClick={() => propertyStateChange(propertyTypeEnum.Residental)
             }>Add Property: Residental</Button>
         </Card.Body>
       </Card>

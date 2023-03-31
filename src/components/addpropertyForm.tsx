@@ -4,10 +4,11 @@ import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { propertyData } from './addproperty';
 import { createProperty} from '@/pages/api/properties';
-export default function AddPropertyForm({userName, type}: {userName: any, type: string}) {
+export default function AddPropertyForm({userName, type}: {userName: any, type: number}) {
   const [show, setShow] = useState(true);
   const [address, setAddress] = useState<string>('');
-  const [zipCode, setZipCode] = useState<string>('');
+  const [zipCode, setZipCode] = useState<number>(0);
+  const [imageUrl, setimageUrl] = useState<string>('');
 
   const handleClose = () => setShow(false);
   const saveData = () => {
@@ -18,7 +19,7 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
     // type
     const propertyCreateData: propertyData = {
         owner: userName,
-        image: '',
+        image: imageUrl,
         zipcode: zipCode,
         address: address,
         type: type,
@@ -27,6 +28,10 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
     createProperty(propertyCreateData);
     handleClose();
   }
+  const handleZipChange = (e:any) => {
+    const value = e.target.value.replace(/\D/g, "");
+    setZipCode(value);
+  };
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -35,7 +40,7 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group className="mb-3" controlId="LocationControl">
+            <Form.Group className="mb-3">
               <Form.Label>Address</Form.Label>
               <Form.Control
                 type="string"
@@ -46,14 +51,23 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
             </Form.Group>
             <Form.Group
               className="mb-3"
-              controlId="password control"
             >
               <Form.Label>ZipCode</Form.Label>
               <Form.Control
               placeholder="Ex: 78704"
-              type="string"
               value={zipCode}
-              onChange={(e) => setZipCode(e.currentTarget.value)}/>
+              type="number"
+              onChange={handleZipChange}/>
+            </Form.Group>
+            <Form.Group
+              className="mb-3"
+            >
+              <Form.Label>Image Url</Form.Label>
+              <Form.Control
+              placeholder="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/1245px-Twitter-logo.svg.png"
+              value={imageUrl}
+              type="string"
+              onChange={(e) => setimageUrl(e.currentTarget.value)}/>
             </Form.Group>
           </Form>
         </Modal.Body>
