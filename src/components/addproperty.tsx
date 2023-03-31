@@ -56,7 +56,7 @@ const AddProperty = () => {
     <AddNewPropertyCard/>
     <hr/>
     <Container>
-    <Row xs={1} md={2} className="justify-content-md-center">
+    <Row xs={1} md={2} lg = {4} className="justify-content-md-center">
         {properties.map((object, i) => <Propertycard key={object.address} image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
     </Row>
     </Container>
