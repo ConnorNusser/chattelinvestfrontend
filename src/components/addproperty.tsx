@@ -21,13 +21,13 @@ const AddProperty = () => {
         if(propertyData.length > 0){
             var localProperties: propertyData[] = []
             for (let result of propertyData){
-                if(result.image && result.owner && result.address && result.zipcode){
+                if(result.owner && result.address && result.zipcode){
                     var localPropertyObj: propertyData = {
-                        image: result.image,
+                        image: result.url_link,
                         owner: result.owner,
                         address: result.address,
                         zipcode: result.zipcode,
-                        type: result.type,
+                        type: result.commerical_type,
                     }
                     localProperties.push(localPropertyObj);
                 }
@@ -43,6 +43,8 @@ const AddProperty = () => {
     useEffect(() => {
             const fetchData = async () => {
                 const data = await getMappedProperties(session?.user?.name);
+                console.log(data);
+                console.log("hi")
                 setProperties(data);
               }
             
@@ -89,10 +91,15 @@ const AddNewPropertyCard = () => {
     const { data: session} = useSession();
     const [show, setShow] = useState(false);
     const [propertyType, setPropertyType] = useState(propertyTypeEnum.Commerical);
+    const [username, setUserName] = useState<String | null>();
+
+    useEffect(() => {
+      setUserName(session?.user?.name)
+},[session])
     return (
         <div style={{justifyContent:'center', display: 'flex', textAlign:'center'}}>
         <>
-        {show? <AddPropertyForm userName={session?.user?.name} type = {propertyType}/> : null}
+        {show? <AddPropertyForm userName={username} type = {propertyType}/> : null}
         </>
         <Card style={{ width: '36rem', paddingInline:'20px'}}>
         <Card.Body>

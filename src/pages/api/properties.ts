@@ -21,7 +21,7 @@ export const createProperty = async(props: propertyData) => {
     headers: { 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': 'http://localhost:8000/property/createProperty',
                 'Access-Control-Allow-Credentials': 'true' },
-    body: JSON.stringify({ "owner": props.owner, "address": props.address,"zipcode": props.zipcode, "type":props.type})
+    body: JSON.stringify({ "owner": props.owner, "address": props.address,"zipcode": props.zipcode, "type":props.type, "imageUrl":props.image})
     };
     let feedResponse = await fetch('http://localhost:8000/property/createProperty', requestOptions)
     .then(response => {

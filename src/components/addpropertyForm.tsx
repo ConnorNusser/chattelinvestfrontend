@@ -25,6 +25,7 @@ export default function AddPropertyForm({userName, type}: {userName: any, type: 
         type: type,
 
       }
+    console.log(propertyCreateData);
     createProperty(propertyCreateData);
     handleClose();
   }
