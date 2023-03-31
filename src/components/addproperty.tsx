@@ -1,4 +1,4 @@
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -55,16 +55,18 @@ const AddProperty = () => {
     <>
     <AddNewPropertyCard/>
     <hr/>
-    <Row xs={1} md={2} className="g-4">
+    <Container>
+    <Row xs={1} md={2} className="justify-content-md-center">
         {properties.map((object, i) => <Propertycard key={object.address} image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
     </Row>
+    </Container>
     </>
   );
 }
 const Propertycard = (propInfo: propertyData) => {
     return (
         <Col>
-        <Card>
+        <Card style = {{ width: '18rem', alignContent:'center'}}>
           <Card.Img variant="top" src={propInfo.image} />
           <Card.Body>
             <Card.Title>{propInfo.address}</Card.Title>
