@@ -30,3 +30,19 @@ export const createProperty = async(props: propertyData) => {
     return feedResponse;
 
 }
+
+export const deleteProperty = async(props: {props:number}){
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://localhost:8000/property/deleteProperty',
+                    'Access-Control-Allow-Credentials': 'true' },
+        body: JSON.stringify({"property_id": props})
+        };
+        let feedResponse = await fetch('http://localhost:8000/property/deleteProperty', requestOptions)
+        .then(response => {
+        return response.json();
+        });
+        return feedResponse;
+    
+}

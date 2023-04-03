@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import AddPropertyForm from './addpropertyForm';
 export interface propertyData {
-    key?: string
+    key?: number
     image: string
     owner: string
     address: string
@@ -23,6 +23,7 @@ const AddProperty = () => {
             for (let result of propertyData){
                 if(result.owner && result.address && result.zipcode){
                     var localPropertyObj: propertyData = {
+                        key: result.property_id,
                         image: result.url_link,
                         owner: result.owner,
                         address: result.address,
@@ -43,8 +44,6 @@ const AddProperty = () => {
     useEffect(() => {
             const fetchData = async () => {
                 const data = await getMappedProperties(session?.user?.name);
-                console.log(data);
-                console.log("hi")
                 setProperties(data);
               }
             
@@ -57,7 +56,7 @@ const AddProperty = () => {
     <hr/>
     <Container>
     <Row xs={1} md={2} lg = {4} className="justify-content-md-center">
-        {properties.map((object, i) => <Propertycard key={object.address} image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
+        {properties.map((object, i) => <Propertycard key={object.key} image={object.image} owner={object.owner} address={object.address} zipcode={object.zipcode} type={object.type} />)}
     </Row>
     </Container>
     </>

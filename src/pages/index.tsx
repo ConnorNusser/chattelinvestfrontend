@@ -3,9 +3,29 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Card, Form } from 'react-bootstrap';
+import { useState } from 'react';
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const [search, setSearch] = useState('');
+  const [cityInfo, setCityInfo] = useState({
+    year: '',
+    population: '',
+    country: '',
+ });
+  async function propertySearch(): Promise<void> {
+    console.log(search);
+    var raw = "{\n    \"city\": \"lagos\"\n}";
+
+    var requestOptions = {
+      method: 'POST',
+      body: raw,
+      redirect: 'follow'
+    };
+
+  }
+
   return (
     <>
       <Head>
@@ -15,6 +35,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+      <div style={{justifyContent:'center', display: 'flex', textAlign:'center'}}>
+        <Card style={{ width: '36rem', paddingInline:'20px'}}>
+        <Card.Body>
+        <Form>
+      <Form.Group className="mb-3" controlId="formBasicSearch">
+        <Card.Title>Property Search In your Area</Card.Title>
+        <Form.Control type="string" placeholder="Type in a City" value = {search} onChange={(e)=>setSearch(e.currentTarget.value)}></Form.Control>
+        <hr></hr>
+            <Button size='sm' onClick={propertySearch}>Search</Button>
+      </Form.Group>
+      </Form>   
+        </Card.Body>
+      </Card>
+      </div>
+      <h3>
+        {cityInfo.country}
+        {cityInfo.population}
+        {cityInfo.year}
+      </h3>
       </main>
     </>
   )
